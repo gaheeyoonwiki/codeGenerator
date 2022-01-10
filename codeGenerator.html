@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>위키북스 동영상 강의 주소 생성기</title>
+    <style>
+      #defaultTag1, #defaultTag2, #defaultTag3 {
+        display: none;
+      }
+
+      textarea {
+        width: 100%;
+        height: 1000px;
+      }
+      table input {
+        width: 95%;
+      }
+      table tr td {
+        text-align: center;
+      }
+
+      table tr:nth-child(2) {
+        display: none;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="inputArea">
+      <label for="title">책 제목</label> <input type="text" id="bookTitle" />
+
+      <table id="contentsTable">
+        <colgroup>
+          <col width="5%" />
+          <col width="40%" />
+          <col width="5%" />
+          <col width="40%" />
+          <col width="5%" />
+          <col width="5%" />
+        </colgroup>
+        <tr>
+          <th>번호</th>
+          <th>제목</th>
+          <th>페이지</th>
+          <th>링크</th>
+          <th>분</th>
+          <th>초</th>
+        </tr>
+        <tr class="row">
+          <td><input type="text" class="num" /></td>
+          <td><input tpye="text" class="title" /></td>
+          <td><input tpye="text" class="page" /></td>
+          <td><input tpye="text" class="link" /></td>
+          <td><input tpye="text" class="min" /></td>
+          <td><input tpye="text" class="sec" /></td>
+        </tr>
+        <tr class="row">
+          <td><input type="text" class="num" /></td>
+          <td><input tpye="text" class="title" /></td>
+          <td><input tpye="text" class="page" /></td>
+          <td><input tpye="text" class="link" /></td>
+          <td><input tpye="text" class="min" /></td>
+          <td><input tpye="text" class="sec" /></td>
+        </tr>
+      </table>
+
+      <input type="button" value="행 추가" onclick="addRow()" />
+
+<!-- defaultTag1 -->
+<xmp id="defaultTag1">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+</xmp>
+<!-- defaultTag1 -->
+
+<!-- defaultTag2 -->
+<xmp id="defaultTag2">
+    </title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <ul id="contents">
+</xmp>
+<!-- defaultTag2 -->
+
+<!-- defaultTag3 -->
+<xmp id="defaultTag3">
+    </ul>
+  </body>
+</html>
+</xmp>
+<!-- defaultTag3 -->
+
+    </div>
+    <div id="resultArea"></div>
+  </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      makeResultText();
+
+      $('input').change(function() {
+        makeResultText();
+      });
+    });
+
+    function makeResultText() {
+      var studyNum = 1;
+
+      var text = '<xmp>';
+      text += $('#defaultTag1').text();
+      text += $('#bookTitle').val();
+      text += $('#defaultTag2').text();
+
+      var trs = $('table tr');
+      for(var i=2; i<trs.length; i++) {
+        var num = $(trs[i]).find('.num').val();
+        var title = $(trs[i]).find('.title').val();
+        var page = $(trs[i]).find('.page').val();
+        var link = $(trs[i]).find('.link').val();
+        var min = $(trs[i]).find('.min').val();
+        var sec = $(trs[i]).find('.sec').val();
+
+        var li = '\n      <li>'
+          + '\n        <span class="title"><span class="num">' + num + '</span>' + title + '</span>'
+          + '\n        <span class="page">' + page + '</span>'
+          + '\n        <ul class="detail">'
+          + '\n          <li><span>동영상 강좌</span><a href="' + link + '" target="_blank">' + link + '</a> (' + min + '분 ' + sec + '초) <span class="studyLabel" id="study' + studyNum + '" data-study="' + studyNum + '">학습 중</span></li>'
+          + '\n        </ul>'
+          + '\n      </li>';
+
+        text += li;
+
+        studyNum++;
+      }
+
+      text += $('#defaultTag3').text();
+      text += '</xmp>'
+
+      $('#resultArea').html(text);
+    }
+
+    function addRow() {
+      $('#contentsTable tr:last').after($('.row:first').clone());
+
+      $('input').change(function() {
+        makeResultText();
+      });
+    }
+  </script>
+</html>
